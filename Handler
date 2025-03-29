@@ -1,0 +1,43 @@
+# Custom Exception Handler Example
+class CustomError(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(message)
+
+# Function with Try-Except-Else-Finally Handling
+def divide_numbers(a, b):
+    try:
+        result = a / b
+        print(f"Result: {result}")
+    except ZeroDivisionError:
+        print("Error: Division by zero is not allowed!")
+    except TypeError:
+        print("Error: Invalid input type. Only numbers are allowed.")
+    except CustomError as e:
+        print(f"Custom Error Occurred: {e.message}")
+    else:
+        print("Division completed successfully.")
+    finally:
+        print("Execution complete.")
+
+# Example Usage
+divide_numbers(10, 5)   # Works fine
+divide_numbers(10, 0)   # ZeroDivisionError
+divide_numbers("10", 2) # TypeError
+
+# Raising Custom Exceptions
+def check_age(age):
+    if age < 18:
+        raise CustomError("Age must be 18 or older.")
+    print("Access granted.")
+
+try:
+    check_age(16)
+except CustomError as e:
+    print(f"Access Denied: {e.message}")
+
+# Handling Multiple Errors in One Block
+try:
+    file = open("nonexistent_file.txt", "r")
+except (FileNotFoundError, IOError) as e:
+    print(f"File Error: {str(e)}")
